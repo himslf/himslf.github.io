@@ -1,8 +1,8 @@
 :root {
-	--firstColor: #4A4073;
-	--secondColor: #FFFFFF;
-	--thirdColor: #CCD472;
-	--fourthColor: #93CBEB;
+	--firstColor: #5C6B73;
+	--secondColor: #9DB4C0;
+	--thirdColor: #C2DFE3;
+	--fourthColor: #E0FBFC;
 	--mainPadding: 19px;
 	--font: 'Josefin Slab', serif;
 	--shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
