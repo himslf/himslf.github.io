@@ -27,8 +27,7 @@ body{
 	flex-flow: wrap;
 	align-items: center;
 	list-style-type: none;
-	/* background-color: var(--fourthColor); */
-	background-color: linear-gradient(to right #c5b0ee, #244669);
+	background-color: white;
 	position: fixed;
 	top: 0;
 	color: var(--thirdColor);
