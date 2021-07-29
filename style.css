@@ -28,7 +28,7 @@ body{
 	align-items: center;
 	list-style-type: none;
 	/* background-color: var(--fourthColor); */
-	background-image: linear-gradient(to right #c5b0ee, #244669);
+	background-color: linear-gradient(to right #c5b0ee, #244669);
 	position: fixed;
 	top: 0;
 	color: var(--thirdColor);
