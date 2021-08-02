@@ -27,7 +27,7 @@ body{
 	flex-flow: wrap;
 	align-items: center;
 	list-style-type: none;
-	background-color: white;
+	background-color: gray;
 	position: fixed;
 	top: 0;
 	color: var(--thirdColor);
