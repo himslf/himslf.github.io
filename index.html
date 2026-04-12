@@ -4,242 +4,249 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>HIMSLF</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,700;1,400;1,700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
   <style>
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     html, body {
-      width: 100%;
       height: 100%;
-      background: #080808;
       overflow: hidden;
     }
 
-    canvas {
-      position: fixed;
-      top: 0; left: 0;
+    body {
+      background: #07070f;
+      font-family: 'DM Sans', system-ui, sans-serif;
+    }
+
+    .wrap {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 36px 52px 40px;
+      overflow: hidden;
+    }
+
+    .bg {
+      position: absolute;
+      inset: 0;
       width: 100%;
       height: 100%;
       z-index: 0;
     }
 
-    .content {
-      position: fixed;
-      z-index: 10;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
+    nav {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-weight: 700;
+      font-size: 18px;
+      letter-spacing: 0.18em;
+      color: #f5f3ee;
+      text-transform: uppercase;
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 28px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      color: rgba(255,255,255,0.3);
+      font-weight: 400;
+      text-decoration: none;
+      text-transform: lowercase;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: rgba(255,255,255,0.75); }
+
+    .body {
+      position: relative;
+      z-index: 2;
       display: flex;
       flex-direction: column;
-      align-items: center;
-      gap: 18px;
-      opacity: 0;
-      animation: fadeUp 2s ease 0.6s forwards;
+      gap: 16px;
     }
 
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translate(-50%, calc(-50% + 10px)); }
-      to   { opacity: 1; transform: translate(-50%, -50%); }
-    }
-
-    h1 {
-      font-family: 'Cormorant Garamond', serif;
-      font-weight: 300;
-      font-size: clamp(48px, 10vw, 88px);
+    .eyebrow {
+      font-size: 10px;
       letter-spacing: 0.18em;
-      color: #e8e2d9;
-      line-height: 1;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.25);
+      font-weight: 500;
     }
 
-    .divider {
-      width: 1px;
-      height: 20px;
-      background: #2a2a2a;
+    .headline {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-weight: 700;
+      font-size: clamp(72px, 13vw, 140px);
+      line-height: 0.88;
+      letter-spacing: -0.02em;
+      color: #f5f3ee;
+      text-transform: uppercase;
     }
 
-    .tagline {
-      font-family: sans-serif;
-      font-size: 9px;
-      letter-spacing: 0.2em;
-      color: rgba(180, 174, 164, 0.45);
+    .headline .m {
+      color: #4a1a9e;
+      text-shadow: 0 0 22px rgba(74,26,158,0.75), 0 0 55px rgba(74,26,158,0.35);
     }
 
-    .socials {
-  display: flex;
-  gap: 20px;
-  align-items: center;
-}
+    .footer-row {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
 
-.socials a {
-  color: rgba(180, 174, 164, 0.35);
-  text-decoration: none;
-  transition: color 0.3s ease;
-  display: flex;
-  align-items: center;
-}
+    .corner-label {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 11px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      font-style: italic;
+      color: rgba(255,255,255,0.25);
+      text-shadow: 0 1px 6px rgba(0,0,0,0.9), 0 0 14px rgba(74,26,158,0.3);
+    }
 
-.socials a:hover {
-  color: rgba(180, 174, 164, 0.75);
-}
-
-.socials a.disabled {
-  pointer-events: none;
-  opacity: 0.2;
-}
-    
+    @media (max-width: 600px) {
+      .wrap { padding: 28px 28px 32px; }
+      .nav-links { gap: 18px; }
+    }
   </style>
 </head>
 <body>
+  <div class="wrap">
 
-  <canvas id="c"></canvas>
+    <svg class="bg" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="bg1" cx="35%" cy="60%" r="70%">
+          <stop offset="0%" stop-color="#110820"/>
+          <stop offset="50%" stop-color="#0a0714"/>
+          <stop offset="100%" stop-color="#05050d"/>
+        </radialGradient>
+        <radialGradient id="goo1" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#2e0a66" stop-opacity="0.65"/>
+          <stop offset="100%" stop-color="#2e0a66" stop-opacity="0"/>
+        </radialGradient>
+        <radialGradient id="goo2" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#1c0548" stop-opacity="0.55"/>
+          <stop offset="100%" stop-color="#1c0548" stop-opacity="0"/>
+        </radialGradient>
+        <radialGradient id="goo3" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#0d1a3a" stop-opacity="0.35"/>
+          <stop offset="100%" stop-color="#0d1a3a" stop-opacity="0"/>
+        </radialGradient>
+        <radialGradient id="vig" cx="50%" cy="50%" r="70%">
+          <stop offset="0%" stop-color="transparent"/>
+          <stop offset="100%" stop-color="#030306" stop-opacity="0.85"/>
+        </radialGradient>
+        <filter id="blur2"><feGaussianBlur stdDeviation="45"/></filter>
+        <filter id="blur3"><feGaussianBlur stdDeviation="88"/></filter>
+      </defs>
 
-  <div class="content">
-    <h1>HIMSLF</h1>
-    <div class="divider"></div>
-    <p class="tagline">soon come...</p>
+      <rect width="1440" height="900" fill="url(#bg1)"/>
 
-      <div class="socials">
-  <a href="https://instagram.com/himslf" target="_blank" aria-label="Instagram">
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
-      <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
-      <circle cx="12" cy="12" r="4"/>
-      <circle cx="17.5" cy="6.5" r="0.8" fill="currentColor" stroke="none"/>
+      <ellipse cx="320"  cy="560" rx="450" ry="320" fill="url(#goo1)" filter="url(#blur3)"/>
+      <ellipse cx="1100" cy="260" rx="380" ry="290" fill="url(#goo2)" filter="url(#blur3)"/>
+      <ellipse cx="800"  cy="720" rx="320" ry="220" fill="url(#goo1)" filter="url(#blur2)"/>
+      <ellipse cx="1240" cy="650" rx="290" ry="210" fill="url(#goo3)" filter="url(#blur2)"/>
+      <ellipse cx="160"  cy="160" rx="260" ry="190" fill="url(#goo2)" filter="url(#blur2)"/>
+
+      <g stroke="rgba(110,60,220,0.06)" stroke-width="0.6">
+        <line x1="0" y1="90"  x2="1440" y2="90"/>
+        <line x1="0" y1="180" x2="1440" y2="180"/>
+        <line x1="0" y1="270" x2="1440" y2="270"/>
+        <line x1="0" y1="360" x2="1440" y2="360"/>
+        <line x1="0" y1="450" x2="1440" y2="450"/>
+        <line x1="0" y1="540" x2="1440" y2="540"/>
+        <line x1="0" y1="630" x2="1440" y2="630"/>
+        <line x1="0" y1="720" x2="1440" y2="720"/>
+        <line x1="0" y1="810" x2="1440" y2="810"/>
+      </g>
+      <g stroke="rgba(110,60,220,0.06)" stroke-width="0.6">
+        <line x1="90"   y1="0" x2="90"   y2="900"/>
+        <line x1="180"  y1="0" x2="180"  y2="900"/>
+        <line x1="270"  y1="0" x2="270"  y2="900"/>
+        <line x1="360"  y1="0" x2="360"  y2="900"/>
+        <line x1="450"  y1="0" x2="450"  y2="900"/>
+        <line x1="540"  y1="0" x2="540"  y2="900"/>
+        <line x1="630"  y1="0" x2="630"  y2="900"/>
+        <line x1="720"  y1="0" x2="720"  y2="900"/>
+        <line x1="810"  y1="0" x2="810"  y2="900"/>
+        <line x1="900"  y1="0" x2="900"  y2="900"/>
+        <line x1="990"  y1="0" x2="990"  y2="900"/>
+        <line x1="1080" y1="0" x2="1080" y2="900"/>
+        <line x1="1170" y1="0" x2="1170" y2="900"/>
+        <line x1="1260" y1="0" x2="1260" y2="900"/>
+        <line x1="1350" y1="0" x2="1350" y2="900"/>
+      </g>
+
+      <g fill="rgba(140,80,255,0.1)">
+        <circle cx="450"  cy="360" r="2"/>
+        <circle cx="630"  cy="180" r="2"/>
+        <circle cx="810"  cy="450" r="2"/>
+        <circle cx="990"  cy="270" r="2"/>
+        <circle cx="270"  cy="540" r="2"/>
+        <circle cx="1080" cy="630" r="2"/>
+        <circle cx="90"   cy="270" r="2"/>
+        <circle cx="720"  cy="720" r="2"/>
+        <circle cx="1260" cy="90"  r="2"/>
+      </g>
+
+      <g fill="rgba(255,255,255,0.45)">
+        <circle cx="130"  cy="70"  r="1"/>
+        <circle cx="340"  cy="200" r="0.8"/>
+        <circle cx="620"  cy="110" r="0.9"/>
+        <circle cx="820"  cy="290" r="0.8"/>
+        <circle cx="1040" cy="85"  r="1.1"/>
+        <circle cx="1250" cy="220" r="0.8"/>
+        <circle cx="1380" cy="130" r="0.9"/>
+        <circle cx="220"  cy="400" r="0.7"/>
+        <circle cx="530"  cy="610" r="0.8"/>
+        <circle cx="1120" cy="740" r="0.9"/>
+        <circle cx="1310" cy="560" r="0.7"/>
+        <circle cx="740"  cy="680" r="0.8"/>
+        <circle cx="970"  cy="820" r="0.7"/>
+        <circle cx="70"   cy="760" r="0.8"/>
+      </g>
+
+      <rect width="1440" height="900" fill="url(#vig)"/>
     </svg>
-  </a>
-  <a href="https://threads.net/@himslf" target="_blank" aria-label="Threads">
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/>
-      <path d="M8 12c0-2.21 1.79-4 4-4 1.5 0 2.8.82 3.5 2"/>
-      <path d="M16 12c0 2.21-1.79 4-4 4-1.5 0-2.8-.82-3.5-2"/>
-      <path d="M16 9v6"/>
-    </svg>
-  </a>
-  <a href="#" aria-label="YouTube" class="disabled">
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
-      <rect x="2" y="5" width="20" height="14" rx="3"/>
-      <polygon points="10,9 16,12 10,15" fill="currentColor" stroke="none"/>
-    </svg>
-  </a>
-</div>
-    
+
+    <nav>
+      <a href="/" class="logo">Himslf</a>
+      <ul class="nav-links">
+        <li><a href="#">words</a></li>
+        <li><a href="#">sounds</a></li>
+        <li><a href="#">connect</a></li>
+      </ul>
+    </nav>
+
+    <div class="body">
+      <span class="eyebrow">Words &amp; Sounds</span>
+      <div class="headline">HI<span class="m">M</span>-<br>SLF.</div>
+    </div>
+
+    <div class="footer-row">
+      <span class="corner-label">SWIA</span>
+    </div>
+
   </div>
-
-  <script>
-    const canvas = document.getElementById('c');
-    const ctx = canvas.getContext('2d');
-    let W, H, t = 0;
-
-    function resize() {
-      W = canvas.width = window.innerWidth;
-      H = canvas.height = window.innerHeight;
-    }
-    resize();
-    window.addEventListener('resize', resize);
-
-    const GRID = 28;
-    const pts = [];
-
-    function buildGrid() {
-      pts.length = 0;
-      const cols = Math.ceil(W / GRID) + 2;
-      const rows = Math.ceil(H / GRID) + 2;
-      for (let r = 0; r < rows; r++) {
-        for (let c = 0; c < cols; c++) {
-          pts.push({
-            bx: c * GRID,
-            by: r * GRID,
-            ox: (Math.random() - 0.5) * 6,
-            oy: (Math.random() - 0.5) * 6,
-            phase: Math.random() * Math.PI * 2,
-            sp: 0.4 + Math.random() * 0.6
-          });
-        }
-      }
-    }
-    buildGrid();
-
-    const blobs = Array.from({ length: 5 }, () => ({
-      x: Math.random(), y: Math.random(),
-      vx: (Math.random() - 0.5) * 0.0007,
-      vy: (Math.random() - 0.5) * 0.0007,
-      r: 0.22 + Math.random() * 0.18,
-      phase: Math.random() * Math.PI * 2,
-      sp: 0.002 + Math.random() * 0.003
-    }));
-
-    function draw() {
-      W = canvas.width = window.innerWidth;
-      H = canvas.height = window.innerHeight;
-      t += 0.007;
-
-      ctx.fillStyle = '#080808';
-      ctx.fillRect(0, 0, W, H);
-
-      const cols = Math.ceil(W / GRID) + 2;
-      const rows = Math.ceil(H / GRID) + 2;
-      if (pts.length !== cols * rows) buildGrid();
-
-      ctx.strokeStyle = 'rgba(90,88,84,0.18)';
-      ctx.lineWidth = 0.5;
-
-      for (let r = 0; r < rows - 1; r++) {
-        for (let c = 0; c < cols - 1; c++) {
-          const i = r * cols + c;
-          const p   = pts[i];
-          const pr  = pts[i + 1];
-          const pb  = pts[i + cols];
-
-          const px  = p.bx  + p.ox  + Math.sin(t * p.sp  + p.phase) * 3;
-          const py  = p.by  + p.oy  + Math.cos(t * p.sp  + p.phase) * 3;
-          const prx = pr.bx + pr.ox + Math.sin(t * pr.sp + pr.phase) * 3;
-          const pry = pr.by + pr.oy + Math.cos(t * pr.sp + pr.phase) * 3;
-          const pbx = pb.bx + pb.ox + Math.sin(t * pb.sp + pb.phase) * 3;
-          const pby = pb.by + pb.oy + Math.cos(t * pb.sp + pb.phase) * 3;
-
-          ctx.beginPath(); ctx.moveTo(px, py); ctx.lineTo(prx, pry); ctx.stroke();
-          ctx.beginPath(); ctx.moveTo(px, py); ctx.lineTo(pbx, pby); ctx.stroke();
-
-          const dotAlpha = 0.12 + Math.sin(t * p.sp * 2 + p.phase) * 0.06;
-          ctx.fillStyle = `rgba(100,98,94,${dotAlpha})`;
-          ctx.beginPath(); ctx.arc(px, py, 0.8, 0, Math.PI * 2); ctx.fill();
-        }
-      }
-
-      blobs.forEach(b => {
-        b.x += b.vx + Math.sin(t * 40 * b.sp + b.phase) * 0.0003;
-        b.y += b.vy + Math.cos(t * 30 * b.sp + b.phase) * 0.0003;
-        if (b.x < -0.3) b.x = 1.3;
-        if (b.x > 1.3)  b.x = -0.3;
-        if (b.y < -0.3) b.y = 1.3;
-        if (b.y > 1.3)  b.y = -0.3;
-
-        const bx = b.x * W;
-        const by = b.y * H;
-        const br = (b.r + Math.sin(t * 60 * b.sp + b.phase) * 0.04) * Math.min(W, H);
-
-        const g = ctx.createRadialGradient(bx, by, 0, bx, by, br);
-        g.addColorStop(0,   'rgba(30, 28, 26, 0.7)');
-        g.addColorStop(0.4, 'rgba(16, 14, 12, 0.35)');
-        g.addColorStop(1,   'rgba(0, 0, 0, 0)');
-
-        ctx.globalCompositeOperation = 'screen';
-        ctx.fillStyle = g;
-        ctx.beginPath(); ctx.arc(bx, by, br, 0, Math.PI * 2); ctx.fill();
-      });
-
-      ctx.globalCompositeOperation = 'source-over';
-
-      const v = ctx.createRadialGradient(W/2, H/2, H * 0.08, W/2, H/2, H * 0.88);
-      v.addColorStop(0, 'rgba(0,0,0,0)');
-      v.addColorStop(1, 'rgba(0,0,0,0.92)');
-      ctx.fillStyle = v;
-      ctx.fillRect(0, 0, W, H);
-
-      requestAnimationFrame(draw);
-    }
-
-    draw();
-  </script>
-
 </body>
 </html>
