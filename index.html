@@ -2,251 +2,364 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#050508" />
   <title>HIMSLF</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23050508'/%3E%3Crect x='2' y='2' width='60' height='60' rx='10' fill='none' stroke='%239d4edd' stroke-width='2.5'/%3E%3Cpath d='M16 16h9v12h14V16h9v32h-9V35H25v13h-9V16z' fill='%23f5f5f7'/%3E%3Crect x='25' y='28' width='14' height='7' fill='%23ccff00'/%3E%3C/svg%3E" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,700;1,400;1,700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;700&family=Syne:wght@700;800&display=swap" rel="stylesheet" />
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    html, body {
-      height: 100%;
-      overflow: hidden;
+    :root {
+      --bg: #050508;
+      --ink: #f4f4f6;
+      --muted: rgba(244, 244, 246, 0.42);
+      --line: rgba(255, 255, 255, 0.09);
+      --accent: #ccff00;
+      --violet: #7b2cbf;
+      --violet-bright: #9d4edd;
+      --font-display: 'Syne', system-ui, -apple-system, sans-serif;
+      --font-serif: 'Instrument Serif', Georgia, serif;
+      --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+      --mx: 50%;
+      --my: 50%;
     }
 
-    body {
-      background: #07070f;
-      font-family: 'DM Sans', system-ui, sans-serif;
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--font-mono);
+      -webkit-font-smoothing: antialiased;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    ::selection {
+      background: var(--accent);
+      color: #050508;
     }
 
     .wrap {
       position: relative;
       width: 100vw;
-      height: 100vh;
+      height: 100svh;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      padding: 36px 52px 40px;
+      padding: clamp(24px, 4.5vw, 48px) clamp(24px, 5vw, 64px) calc(clamp(28px, 4.5vw, 48px) + env(safe-area-inset-bottom, 0px));
       overflow: hidden;
+      isolation: isolate;
     }
 
+    /* Ambient Futuristic Spatial Backdrop */
     .bg {
       position: absolute;
       inset: 0;
       width: 100%;
       height: 100%;
       z-index: 0;
+      pointer-events: none;
     }
 
+    .ambient-glow {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(650px circle at var(--mx) var(--my), rgba(157, 78, 221, 0.16), transparent 60%),
+        radial-gradient(circle at 18% 72%, rgba(123, 44, 191, 0.22), transparent 50%),
+        radial-gradient(circle at 84% 22%, rgba(204, 255, 0, 0.06), transparent 45%);
+      transition: background 0.15s ease-out;
+    }
+
+    .noise {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      opacity: 0.035;
+      background-image: radial-gradient(rgba(255, 255, 255, 0.85) 1px, transparent 0);
+      background-size: 24px 24px;
+    }
+
+    /* Top Navigation */
     nav {
       position: relative;
       z-index: 2;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      padding-bottom: 18px;
+      border-bottom: 1px solid var(--line);
     }
 
     .logo {
-      font-family: 'Cormorant Garamond', Georgia, serif;
-      font-weight: 700;
-      font-size: 18px;
-      letter-spacing: 0.18em;
-      color: #f5f3ee;
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: clamp(18px, 2.2vw, 22px);
+      letter-spacing: -0.03em;
+      color: var(--ink);
       text-transform: uppercase;
       text-decoration: none;
+      transition: color 0.25s ease;
+    }
+
+    .logo:hover {
+      color: var(--accent);
     }
 
     .nav-links {
       display: flex;
-      gap: 28px;
+      gap: clamp(18px, 3.5vw, 36px);
       list-style: none;
     }
 
     .nav-links a {
+      font-family: var(--font-mono);
       font-size: 11px;
-      letter-spacing: 0.08em;
-      color: rgba(255,255,255,0.3);
-      font-weight: 400;
+      letter-spacing: 0.14em;
+      color: var(--muted);
+      font-weight: 500;
       text-decoration: none;
-      text-transform: lowercase;
-      transition: color 0.2s;
+      text-transform: uppercase;
+      transition: color 0.25s ease, text-shadow 0.25s ease;
     }
 
-    .nav-links a:hover { color: rgba(255,255,255,0.75); }
+    .nav-links a:hover {
+      color: var(--accent);
+      text-shadow: 0 0 16px rgba(204, 255, 0, 0.35);
+    }
 
+    /* Center Monolith Headline */
     .body {
       position: relative;
       z-index: 2;
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: clamp(12px, 2vh, 20px);
+      my: auto;
     }
 
     .eyebrow {
-      font-size: 10px;
-      letter-spacing: 0.18em;
+      font-family: var(--font-mono);
+      font-size: clamp(10px, 1.2vw, 12px);
+      letter-spacing: 0.22em;
       text-transform: uppercase;
-      color: rgba(255,255,255,0.25);
+      color: var(--accent);
       font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .eyebrow::before {
+      content: '';
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 10px var(--accent);
     }
 
     .headline {
-      font-family: 'Cormorant Garamond', Georgia, serif;
-      font-weight: 700;
-      font-size: clamp(72px, 13vw, 140px);
-      line-height: 0.88;
-      letter-spacing: -0.02em;
-      color: #f5f3ee;
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: clamp(68px, 16.5vw, 210px);
+      line-height: 0.84;
+      letter-spacing: -0.055em;
+      color: var(--ink);
       text-transform: uppercase;
+      user-select: none;
     }
 
     .headline .m {
-      color: #4a1a9e;
-      text-shadow: 0 0 22px rgba(74,26,158,0.75), 0 0 55px rgba(74,26,158,0.35);
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-weight: 400;
+      color: transparent;
+      -webkit-text-stroke: 2px var(--violet-bright);
+      text-shadow: 0 0 38px rgba(157, 78, 221, 0.65), 0 0 80px rgba(123, 44, 191, 0.35);
+      padding: 0 0.03em;
+      display: inline-block;
+      transition: color 0.35s ease, -webkit-text-stroke-color 0.35s ease, text-shadow 0.35s ease, transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
+    .headline:hover .m {
+      color: var(--accent);
+      -webkit-text-stroke-color: var(--accent);
+      text-shadow: 0 0 42px rgba(204, 255, 0, 0.55);
+      transform: skewX(-6deg) scale(1.03);
+    }
+
+    .headline .dot {
+      color: var(--accent);
+    }
+
+    /* Bottom Row */
     .footer-row {
       position: relative;
       z-index: 2;
       display: flex;
       justify-content: space-between;
       align-items: flex-end;
+      padding-top: 16px;
+      border-top: 1px solid var(--line);
     }
 
     .corner-label {
-      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-family: var(--font-mono);
       font-size: 11px;
-      letter-spacing: 0.04em;
+      font-weight: 700;
+      letter-spacing: 0.2em;
       text-transform: uppercase;
-      font-style: italic;
-      color: rgba(255,255,255,0.25);
-      text-shadow: 0 1px 6px rgba(0,0,0,0.9), 0 0 14px rgba(74,26,158,0.3);
+      color: var(--muted);
+      transition: color 0.25s ease;
+    }
+
+    .corner-label:hover {
+      color: var(--ink);
+    }
+
+    /* Subtle slow architectural drift */
+    .grid-drift {
+      animation: pulseGrid 12s ease-in-out infinite alternate;
+    }
+
+    @keyframes pulseGrid {
+      0% { opacity: 0.45; }
+      100% { opacity: 0.85; }
     }
 
     @media (max-width: 600px) {
-      .wrap { padding: 28px 28px 32px; }
-      .nav-links { gap: 18px; }
+      .headline {
+        font-size: clamp(64px, 20vw, 120px);
+      }
+      .nav-links {
+        gap: 16px;
+      }
+      .nav-links a {
+        font-size: 10px;
+        letter-spacing: 0.1em;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .grid-drift { animation: none; }
+      .headline .m { transition: none; }
     }
   </style>
 </head>
 <body>
-  <div class="wrap">
+  <div class="wrap" id="stage">
+    <div class="ambient-glow" aria-hidden="true"></div>
+    <div class="noise" aria-hidden="true"></div>
 
-    <svg class="bg" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+    <svg class="bg" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
       <defs>
-        <radialGradient id="bg1" cx="35%" cy="60%" r="70%">
-          <stop offset="0%" stop-color="#110820"/>
-          <stop offset="50%" stop-color="#0a0714"/>
-          <stop offset="100%" stop-color="#05050d"/>
-        </radialGradient>
-        <radialGradient id="goo1" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stop-color="#2e0a66" stop-opacity="0.65"/>
-          <stop offset="100%" stop-color="#2e0a66" stop-opacity="0"/>
-        </radialGradient>
-        <radialGradient id="goo2" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stop-color="#1c0548" stop-opacity="0.55"/>
-          <stop offset="100%" stop-color="#1c0548" stop-opacity="0"/>
-        </radialGradient>
-        <radialGradient id="goo3" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stop-color="#0d1a3a" stop-opacity="0.35"/>
-          <stop offset="100%" stop-color="#0d1a3a" stop-opacity="0"/>
-        </radialGradient>
-        <radialGradient id="vig" cx="50%" cy="50%" r="70%">
+        <radialGradient id="vig" cx="50%" cy="50%" r="72%">
           <stop offset="0%" stop-color="transparent"/>
-          <stop offset="100%" stop-color="#030306" stop-opacity="0.85"/>
+          <stop offset="100%" stop-color="#030306" stop-opacity="0.88"/>
         </radialGradient>
-        <filter id="blur2"><feGaussianBlur stdDeviation="45"/></filter>
-        <filter id="blur3"><feGaussianBlur stdDeviation="88"/></filter>
       </defs>
 
-      <rect width="1440" height="900" fill="url(#bg1)"/>
-
-      <ellipse cx="320"  cy="560" rx="450" ry="320" fill="url(#goo1)" filter="url(#blur3)"/>
-      <ellipse cx="1100" cy="260" rx="380" ry="290" fill="url(#goo2)" filter="url(#blur3)"/>
-      <ellipse cx="800"  cy="720" rx="320" ry="220" fill="url(#goo1)" filter="url(#blur2)"/>
-      <ellipse cx="1240" cy="650" rx="290" ry="210" fill="url(#goo3)" filter="url(#blur2)"/>
-      <ellipse cx="160"  cy="160" rx="260" ry="190" fill="url(#goo2)" filter="url(#blur2)"/>
-
-      <g stroke="rgba(110,60,220,0.06)" stroke-width="0.6">
-        <line x1="0" y1="90"  x2="1440" y2="90"/>
-        <line x1="0" y1="180" x2="1440" y2="180"/>
-        <line x1="0" y1="270" x2="1440" y2="270"/>
-        <line x1="0" y1="360" x2="1440" y2="360"/>
+      <g class="grid-drift" stroke="rgba(255, 255, 255, 0.04)" stroke-width="0.75">
+        <line x1="0" y1="150" x2="1440" y2="150"/>
+        <line x1="0" y1="300" x2="1440" y2="300"/>
         <line x1="0" y1="450" x2="1440" y2="450"/>
-        <line x1="0" y1="540" x2="1440" y2="540"/>
-        <line x1="0" y1="630" x2="1440" y2="630"/>
-        <line x1="0" y1="720" x2="1440" y2="720"/>
-        <line x1="0" y1="810" x2="1440" y2="810"/>
-      </g>
-      <g stroke="rgba(110,60,220,0.06)" stroke-width="0.6">
-        <line x1="90"   y1="0" x2="90"   y2="900"/>
-        <line x1="180"  y1="0" x2="180"  y2="900"/>
-        <line x1="270"  y1="0" x2="270"  y2="900"/>
-        <line x1="360"  y1="0" x2="360"  y2="900"/>
-        <line x1="450"  y1="0" x2="450"  y2="900"/>
-        <line x1="540"  y1="0" x2="540"  y2="900"/>
-        <line x1="630"  y1="0" x2="630"  y2="900"/>
-        <line x1="720"  y1="0" x2="720"  y2="900"/>
-        <line x1="810"  y1="0" x2="810"  y2="900"/>
-        <line x1="900"  y1="0" x2="900"  y2="900"/>
-        <line x1="990"  y1="0" x2="990"  y2="900"/>
+        <line x1="0" y1="600" x2="1440" y2="600"/>
+        <line x1="0" y1="750" x2="1440" y2="750"/>
+        <line x1="180" y1="0" x2="180" y2="900"/>
+        <line x1="360" y1="0" x2="360" y2="900"/>
+        <line x1="540" y1="0" x2="540" y2="900"/>
+        <line x1="720" y1="0" x2="720" y2="900"/>
+        <line x1="900" y1="0" x2="900" y2="900"/>
         <line x1="1080" y1="0" x2="1080" y2="900"/>
-        <line x1="1170" y1="0" x2="1170" y2="900"/>
         <line x1="1260" y1="0" x2="1260" y2="900"/>
-        <line x1="1350" y1="0" x2="1350" y2="900"/>
       </g>
 
-      <g fill="rgba(140,80,255,0.1)">
-        <circle cx="450"  cy="360" r="2"/>
-        <circle cx="630"  cy="180" r="2"/>
-        <circle cx="810"  cy="450" r="2"/>
-        <circle cx="990"  cy="270" r="2"/>
-        <circle cx="270"  cy="540" r="2"/>
-        <circle cx="1080" cy="630" r="2"/>
-        <circle cx="90"   cy="270" r="2"/>
-        <circle cx="720"  cy="720" r="2"/>
-        <circle cx="1260" cy="90"  r="2"/>
-      </g>
-
-      <g fill="rgba(255,255,255,0.45)">
-        <circle cx="130"  cy="70"  r="1"/>
-        <circle cx="340"  cy="200" r="0.8"/>
-        <circle cx="620"  cy="110" r="0.9"/>
-        <circle cx="820"  cy="290" r="0.8"/>
-        <circle cx="1040" cy="85"  r="1.1"/>
-        <circle cx="1250" cy="220" r="0.8"/>
-        <circle cx="1380" cy="130" r="0.9"/>
-        <circle cx="220"  cy="400" r="0.7"/>
-        <circle cx="530"  cy="610" r="0.8"/>
-        <circle cx="1120" cy="740" r="0.9"/>
-        <circle cx="1310" cy="560" r="0.7"/>
-        <circle cx="740"  cy="680" r="0.8"/>
-        <circle cx="970"  cy="820" r="0.7"/>
-        <circle cx="70"   cy="760" r="0.8"/>
+      <g fill="rgba(204, 255, 0, 0.28)">
+        <circle cx="360" cy="300" r="1.8"/>
+        <circle cx="720" cy="450" r="1.8"/>
+        <circle cx="1080" cy="300" r="1.8"/>
+        <circle cx="540" cy="600" r="1.8"/>
+        <circle cx="900" cy="750" r="1.8"/>
       </g>
 
       <rect width="1440" height="900" fill="url(#vig)"/>
     </svg>
 
     <nav>
-      <a href="/" class="logo">Himslf</a>
+      <a href="/" class="logo" data-scramble="HIMSLF">Himslf</a>
       <ul class="nav-links">
-        <li><a href="#">words</a></li>
-        <li><a href="#">sounds</a></li>
-        <li><a href="#">connect</a></li>
+        <li><a href="#" data-scramble="WORDS">words</a></li>
+        <li><a href="#" data-scramble="SOUNDS">sounds</a></li>
+        <li><a href="#" data-scramble="CONNECT">connect</a></li>
       </ul>
     </nav>
 
     <div class="body">
-      <span class="eyebrow">Words &amp; Sounds</span>
-      <div class="headline">HI<span class="m">M</span>-<br>SLF.</div>
+      <span class="eyebrow" data-scramble="WORDS & SOUNDS">Words &amp; Sounds</span>
+      <div class="headline">HI<span class="m">M</span>-<br>SLF<span class="dot">.</span></div>
     </div>
 
     <div class="footer-row">
-      <span class="corner-label">SWIA</span>
+      <span class="corner-label" data-scramble="SWIA">SWIA</span>
     </div>
-
   </div>
+
+  <script>
+    (() => {
+      const root = document.documentElement;
+      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+      const GLYPHS = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ/#*+=-~:';
+
+      // Subtle ambient light tracking (desktop pointer & mobile touch)
+      window.addEventListener('pointermove', (e) => {
+        if (reduced.matches) return;
+        const x = ((e.clientX / window.innerWidth) * 100).toFixed(1) + '%';
+        const y = ((e.clientY / window.innerHeight) * 100).toFixed(1) + '%';
+        root.style.setProperty('--mx', x);
+        root.style.setProperty('--my', y);
+      }, { passive: true });
+
+      // Crisp hover scramble on existing labels
+      function scramble(el) {
+        if (reduced.matches) return;
+        const target = el.dataset.scramble || el.textContent;
+        if (el._raf) cancelAnimationFrame(el._raf);
+        const start = performance.now();
+        const duration = 340;
+        function tick(now) {
+          const p = Math.min(1, (now - start) / duration);
+          if (p >= 1) {
+            el.textContent = target;
+            el._raf = null;
+            return;
+          }
+          const reveal = Math.floor(p * target.length);
+          let out = '';
+          for (let i = 0; i < target.length; i++) {
+            out += target[i] === ' ' ? ' ' : (i < reveal ? target[i] : GLYPHS[Math.floor(Math.random() * GLYPHS.length)]);
+          }
+          el.textContent = out;
+          el._raf = requestAnimationFrame(tick);
+        }
+        el._raf = requestAnimationFrame(tick);
+      }
+
+      document.querySelectorAll('[data-scramble]').forEach((el) => {
+        el.addEventListener('pointerenter', () => scramble(el));
+      });
+    })();
+  </script>
 </body>
 </html>
